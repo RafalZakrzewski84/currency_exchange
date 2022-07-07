@@ -17,13 +17,13 @@ import Typography from '@mui/material/Typography';
 export class Form extends Component {
 	constructor(props) {
 		super(props);
-		console.log(this.props);
+		// console.log(this.props);
 
 		this.onChangeHandler = this.onChangeHandler.bind(this);
 	}
 
 	onChangeHandler(e) {
-		console.log(e.target.value);
+		// console.log(e.target.value);
 		let eValue = e.target.value;
 		this.props.setState({ keyword: eValue });
 	}
