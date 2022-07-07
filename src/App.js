@@ -5,12 +5,6 @@ import Navbar from './Components/Navbar';
 import Form from './Components/Form';
 import axios from 'axios';
 
-// 1. Funkcja fetchujaca dane przy pomocy axiosa: fetchData()
-// W tej funkcji z endpointu api.nbp.pl/api/exchangerates/tables/a ściągacie dane (axios.get)
-// 2. Wrzucacie dane do stanu
-// Jeżeli this.state.keyword !== "" to szukacie odpowiedniej waluty w danych z axiosa i wrzucacie ten obiekt do stanu (response.data[0].rates.find()) (keyword === el.code)
-// Jeżeli keyword === '' to do stanu wrzucacie całą liste obiektów rates
-
 class App extends Component {
 	constructor(props) {
 		super(props);
@@ -24,22 +18,6 @@ class App extends Component {
 		this.fetchHandler = this.fetchHandler.bind(this);
 	}
 
-	// fetchData() {
-	// 	axios
-	// 		.get('http://api.nbp.pl/api/exchangerates/tables/A/')
-	// 		.then(function (response) {
-	// 			if(this.state.keyword !== '') {
-	// 				this.setState({
-	// 					keyword: this.state.keyword,
-	// 					currencyTable: response.data[0].rates.find((e) => e.code ===)
-	// 				})
-	// 			}
-	// 		})
-	// 		.catch(function (error) {
-	// 			console.log(error);
-	// 		});
-	// }
-
 	fetchHandler() {
 		console.log('state ', this.state.keyword);
 		let code = this.state.keyword;
@@ -49,7 +27,7 @@ class App extends Component {
 			.get('http://api.nbp.pl/api/exchangerates/tables/A/')
 			.then((response) => {
 				const data = response.data[0].rates;
-				console.log(data);
+				console.log('axios resp', data);
 
 				if (code !== '') {
 					this.setState({
@@ -66,10 +44,34 @@ class App extends Component {
 			});
 	}
 
-	componentDidUpdate() {
-		// console.log(this.state.keyword);
+	// 1. uzyj funkcji lifecycle componentDidMount i wywolaj w niej fetchData
+	// 2. uzycie componentDidUpdate
+	// sprawdz i wykorzystaj parametry wbudowane w ta funkcje
+	// a) jeżeli świeży keyword jest różny od keyworda w poprzedniego stanu (jeden z parametrow fn componentDidUpdate) i nowy keyword ma length > 2 to wtedy wywolanie fetchData
+	// b) jeżeli nowy keyword jest równy "" i nowy keyword jest różny od keyworda z poprzedniego stanu to wtedy wywolanie fetchData
+
+	// prevState.keyword
+
+	componentDidMount() {
+		this.fetchHandler();
 	}
 
+	componentDidUpdate(prevProps, prevState) {
+		if (
+			this.state.keyword.length > 2 &&
+			this.state.keyword !== prevState.keyword
+		) {
+			this.fetchHandler();
+		} else if (
+			this.state.keyword === '' &&
+			this.state.keyword !== prevState.keyword
+		) {
+			this.fetchHandler();
+		}
+		console.log(this.state.currencyTable);
+	}
+
+	// this.props.currencyTable.map((el, i)=>{ reutrn <TableRow ...})
 	render() {
 		return (
 			<div className="App">
