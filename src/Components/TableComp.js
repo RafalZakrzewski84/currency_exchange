@@ -45,7 +45,7 @@ class TableComp extends Component {
 		console.log('props', this.props);
 		return (
 			<div>
-				<h1>Hello form Table</h1>
+				<h1>NBP Currency Table</h1>
 				<TableContainer component={Paper}>
 					<Table sx={{ minWidth: 700 }} aria-label="customized table">
 						<TableHead>

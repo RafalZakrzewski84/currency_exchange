@@ -45,21 +45,14 @@ class App extends Component {
 			});
 	}
 
-	// 1. uzyj funkcji lifecycle componentDidMount i wywolaj w niej fetchData
-	// 2. uzycie componentDidUpdate
-	// sprawdz i wykorzystaj parametry wbudowane w ta funkcje
-	// a) jeżeli świeży keyword jest różny od keyworda w poprzedniego stanu (jeden z parametrow fn componentDidUpdate) i nowy keyword ma length > 2 to wtedy wywolanie fetchData
-	// b) jeżeli nowy keyword jest równy "" i nowy keyword jest różny od keyworda z poprzedniego stanu to wtedy wywolanie fetchData
-
-	// prevState.keyword
-
 	componentDidMount() {
 		this.fetchHandler();
 	}
 
 	componentDidUpdate(_, prevState) {
 		if (
-			this.state.keyword.length > 2 &&
+			this.state.keyword.length >= 3 &&
+			this.state.keyword.length < 4 &&
 			this.state.keyword !== prevState.keyword
 		) {
 			this.fetchHandler();
@@ -70,7 +63,7 @@ class App extends Component {
 			this.fetchHandler();
 		}
 		console.log(this.state.currencyTable);
-		console.log(this.state.currencyTable.length);
+		// console.log(this.state.currencyTable.length);
 	}
 
 	// this.props.currencyTable.map((el, i)=>{ reutrn <TableRow ...})
@@ -79,7 +72,7 @@ class App extends Component {
 			<div className="App">
 				<Navbar />
 				<Form setState={this.setState} />
-				{/* state && coponent - waiting for data before rendering */}
+				{/* this.state && coponent - waiting for data before rendering */}
 				{this.state.currencyTable && (
 					<TableComp
 						currencyTable={
