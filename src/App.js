@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import Navbar from './Components/Navbar';
 import Form from './Components/Form';
+import TableComp from './Components/TableComp';
 import axios from 'axios';
 
 class App extends Component {
@@ -56,7 +57,7 @@ class App extends Component {
 		this.fetchHandler();
 	}
 
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate(_, prevState) {
 		if (
 			this.state.keyword.length > 2 &&
 			this.state.keyword !== prevState.keyword
@@ -69,6 +70,7 @@ class App extends Component {
 			this.fetchHandler();
 		}
 		console.log(this.state.currencyTable);
+		console.log(this.state.currencyTable.length);
 	}
 
 	// this.props.currencyTable.map((el, i)=>{ reutrn <TableRow ...})
@@ -77,7 +79,15 @@ class App extends Component {
 			<div className="App">
 				<Navbar />
 				<Form setState={this.setState} />
-				<button onClick={this.fetchHandler}>Fetch</button>
+				{this.state.currencyTable && (
+					<TableComp
+						currencyTable={
+							this.state.currencyTable.length
+								? this.state.currencyTable.length
+								: [this.state.currencyTable.length]
+						}
+					/>
+				)}
 			</div>
 		);
 	}
