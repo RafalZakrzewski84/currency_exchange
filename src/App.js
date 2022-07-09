@@ -79,12 +79,13 @@ class App extends Component {
 			<div className="App">
 				<Navbar />
 				<Form setState={this.setState} />
+				{/* state && coponent - waiting for data before rendering */}
 				{this.state.currencyTable && (
 					<TableComp
 						currencyTable={
 							this.state.currencyTable.length
-								? this.state.currencyTable.length
-								: [this.state.currencyTable.length]
+								? this.state.currencyTable
+								: [this.state.currencyTable]
 						}
 					/>
 				)}
